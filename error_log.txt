@@ -1,0 +1,104 @@
+cuda 디버깅시
+set CUDA_LAUNCH_BLOCKING=1
+
+
+validation 이후 에러
+
+a4~a5에서 발생 하는 오류
+
+:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [80,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [83,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [49,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [53,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [54,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [26,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+Failed to export ONNX model: CUDA error: invalid argument
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+------------------------------------------------------------------------------
+
+Error executing job with overrides: ['+model=tlob', '+dataset=lobster']
+Traceback (most recent call last):
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\call.py", line 48, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\fit_loop.py", line 216, in run
+    self.advance()
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\training_epoch_loop.py", line 151, in run
+    self.on_advance_end(data_fetcher)
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\training_epoch_loop.py", line 370, in on_advance_end
+    self.val_loop.run()
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\evaluation_loop.py", line 152, in run
+    return self.on_run_end()
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\evaluation_loop.py", line 295, in on_run_end
+    self._on_evaluation_epoch_end()
+  File "D:\env\lib\site-packages\lightning\pytorch\loops\evaluation_loop.py", line 375, in _on_evaluation_epoch_end
+    call._call_lightning_module_hook(trainer, hook_name)
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\call.py", line 176, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+
+
+  File "D:\TLOB\models\engine.py", line 148, in on_validation_epoch_end
+    self.model_checkpointing(self.val_loss)
+  File "D:\TLOB\models\engine.py", line 227, in model_checkpointing
+    with self.ema.average_parameters():
+
+  File "C:\Users\0612j\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 142, in __exit__
+    next(self.gen)
+  File "D:\env\lib\site-packages\torch_ema\ema.py", line 212, in average_parameters
+    self.restore(parameters)
+  File "D:\env\lib\site-packages\torch_ema\ema.py", line 181, in restore
+    param.data.copy_(c_param.data)
+RuntimeError: CUDA error: invalid argument
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\TLOB\main.py", line 81, in hydra_app
+    start_wandb()
+  File "D:\TLOB\run.py", line 429, in wandb_sweep_callback
+    train(config, trainer, run)
+  File "D:\TLOB\run.py", line 333, in train
+    trainer.fit(model, train_dataloader, val_dataloader)
+
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\call.py", line 69, in _call_and_handle_interrupt
+    trainer._teardown()
+  File "D:\env\lib\site-packages\lightning\pytorch\trainer\trainer.py", line 1035, in _teardown
+    self.strategy.teardown()
+  File "D:\env\lib\site-packages\lightning\pytorch\strategies\strategy.py", line 532, in teardown
+    _optimizers_to_device(self.optimizers, torch.device("cpu"))
+  File "D:\env\lib\site-packages\lightning\fabric\utilities\optimizer.py", line 27, in _optimizers_to_device
+    _optimizer_to_device(opt, device)
+  File "D:\env\lib\site-packages\lightning\fabric\utilities\optimizer.py", line 41, in _optimizer_to_device
+    v[key] = move_data_to_device(val, device)
+  File "D:\env\lib\site-packages\lightning\fabric\utilities\apply_func.py", line 110, in move_data_to_device
+    return apply_to_collection(batch, dtype=_TransferableDataType, function=batch_to)
+  File "D:\env\lib\site-packages\lightning_utilities\core\apply_func.py", line 66, in apply_to_collection
+    return function(data, *args, **kwargs)
+  File "D:\env\lib\site-packages\lightning\fabric\utilities\apply_func.py", line 104, in batch_to
+    data_output = data.to(device, **kwargs)
+RuntimeError: CUDA error: invalid argument
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

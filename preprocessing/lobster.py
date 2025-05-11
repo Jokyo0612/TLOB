@@ -22,6 +22,7 @@ def lobster_load(path, all_features, len_smooth, h, seq_size):
     labels = set[seq_size-len_smooth:, -tmp]
     labels = labels[np.isfinite(labels)]
     labels = torch.from_numpy(labels).long()
+
     if all_features:
         input = set[:, cst.LEN_ORDER:cst.LEN_ORDER + 40]
         orders = set[:, :cst.LEN_ORDER]

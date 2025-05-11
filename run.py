@@ -140,6 +140,7 @@ def train(config: Config, trainer: L.Trainer, run=None):
         
         train_set = Dataset(train_input, train_labels, seq_size)
         val_set = Dataset(val_input, val_labels, seq_size)
+        
         if config.experiment.is_debug:
             train_set.length = 1000
             val_set.length = 1000
@@ -157,6 +158,8 @@ def train(config: Config, trainer: L.Trainer, run=None):
     counts_train = torch.unique(train_labels, return_counts=True)
     counts_val = torch.unique(val_labels, return_counts=True)
     counts_test = torch.unique(test_labels, return_counts=True)
+
+
     print()
     print("Train set shape: ", train_input.shape)
     print("Val set shape: ", val_input.shape)

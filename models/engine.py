@@ -239,6 +239,10 @@ class Engine(LightningModule):
             
             # Create dummy input with appropriate shape
             dummy_input = torch.randn(1, self.seq_size, self.num_features, device=self.device)
+
+            print(dummy_input.shape)
+            
+            print('\na4')
             
             # Export to ONNX
             try:
@@ -258,6 +262,8 @@ class Engine(LightningModule):
                 )
             except Exception as e:
                 print(f"Failed to export ONNX model: {e}")
+
+            print('\na5')
         
         self.last_path_ckpt = path_ckpt  
         

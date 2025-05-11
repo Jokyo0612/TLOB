@@ -64,6 +64,8 @@ def normalize_messages(data, mean_size=None, mean_prices=None, std_size=None,  s
     data["depth"] = (data["depth"] - mean_depth) / std_depth
     # check if there are null values, then raise value error
     if data.isnull().values.any():
+        #print(data.head)
+        #print(data.isnull().sum()[data.isnull().sum() > 0])
         raise ValueError("data contains null value")
 
     data["event_type"] = data["event_type"]-1.0

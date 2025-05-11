@@ -101,6 +101,7 @@ class TLOB(nn.Module):
         if self.dataset_type == "LOBSTER":
             continuous_features = torch.cat([input[:, :, :41], input[:, :, 42:]], dim=2)
             order_type = input[:, :, 41].long()
+            order_type[order_type == -1] = 1
             order_type_emb = self.order_type_embedder(order_type).detach()
             x = torch.cat([continuous_features, order_type_emb], dim=2)
         else:
