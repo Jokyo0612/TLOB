@@ -96,7 +96,7 @@ class TLOB(nn.Module):
             total_dim = total_dim//4
         self.final_layers.append(nn.Linear(total_dim, 3))
         
-    
+
     def forward(self, input, store_att=False):
         if self.dataset_type == "LOBSTER":
             continuous_features = torch.cat([input[:, :, :41], input[:, :, 42:]], dim=2)

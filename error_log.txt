@@ -1,10 +1,12 @@
 cuda 디버깅시
 set CUDA_LAUNCH_BLOCKING=1
 
+if torch.onnx.is_in_onnx_export():
 
-validation 이후 에러
+1. onnx 없애보기
+2. onnx 모든 루트 변수 설정 (gpt 참고)
 
-a4~a5에서 발생 하는 오류
+self.layer.norm gpt 참고
 
 :\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [80,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
 C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\cuda\Indexing.cu:1308: block: [0,0,0], thread: [83,0,0] Assertion `srcIndex < srcSelectDimSize` failed.

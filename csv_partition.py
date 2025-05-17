@@ -43,9 +43,9 @@ from datetime import datetime, timedelta
 
 # 시작 날짜와 저장할 일 수
 start_date = datetime(2015, 1, 2)
-num_days = 17  # 원하는 일 수
+num_days = 2 #17  # 원하는 일 수
 
-base_path = "D:/TLOB/data/INTC/INTC_2015-01-02_2015-01-30"
+base_path = "D:/my_tlob/data/INTC/INTC_2015-01-02_2015-01-30(example)"         #INTC_2015-01-02_2015-01-30
 
 for i in range(num_days):
     current_date = start_date + timedelta(days=i)
